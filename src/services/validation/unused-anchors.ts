@@ -9,7 +9,7 @@ import { isAlias, isCollection, isNode, isScalar, Node, Scalar, visit, YAMLMap, 
 import { YamlNode } from '../../jsonASTTypes';
 import { SingleYAMLDocument } from '../../parser/yaml-documents';
 import { AdditionalValidator } from './types';
-import { isCollectionItem } from '../../../languageservice/utils/astUtils';
+import { isCollectionItem } from '../../utils/astUtils';
 import * as l10n from '@vscode/l10n';
 
 export class UnusedAnchorsValidator implements AdditionalValidator {
@@ -79,9 +79,9 @@ export class UnusedAnchorsValidator implements AdditionalValidator {
     if (parentNode && parentNode.srcToken) {
       const token = parentNode.srcToken;
       if (isCollectionItem(token)) {
-        return getAnchorFromCollectionItem(token);
+        return getAnchorFromCollectionItem(token as CST.CollectionItem);
       } else if (CST.isCollection(token)) {
-        for (const t of token.items) {
+        for (const t of (token as CST.BlockMap | CST.BlockSequence | CST.FlowCollection).items) {
           if (node.srcToken !== t.value) continue;
           const anchor = getAnchorFromCollectionItem(t);
           if (anchor) {

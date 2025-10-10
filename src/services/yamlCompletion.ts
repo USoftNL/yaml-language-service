@@ -36,7 +36,6 @@ import { indexOf, isInComment, isMapContainsEmptyPair } from '../utils/astUtils'
 import { isModeline } from './modelineUtil';
 import { getSchemaTypeName, isAnyOfAllOfOneOfType, isPrimitiveType } from '../utils/schemaUtils';
 import { YamlNode } from '../jsonASTTypes';
-import { SettingsState } from '../../yamlSettings';
 import * as l10n from '@vscode/l10n';
 
 const doubleQuotesEscapeRegExp = /[\\]+"/g;
@@ -87,13 +86,13 @@ export class YamlCompletion {
     private readonly telemetry?: Telemetry
   ) {}
 
-  configure(languageSettings: LanguageSettings, yamlSettings?: SettingsState): void {
+  configure(languageSettings: LanguageSettings): void {
     if (languageSettings) {
       this.completionEnabled = languageSettings.completion;
     }
     this.customTags = languageSettings.customTags;
     this.yamlVersion = languageSettings.yamlVersion;
-    this.isSingleQuote = yamlSettings?.yamlFormatterSettings?.singleQuote || false;
+    this.isSingleQuote = false;
     this.configuredIndentation = languageSettings.indentation;
     this.disableDefaultProperties = languageSettings.disableDefaultProperties;
     this.parentSkeletonSelectedFirst = languageSettings.parentSkeletonSelectedFirst;

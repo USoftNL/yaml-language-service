@@ -15,7 +15,6 @@ import {
   WorkspaceEdit,
 } from 'vscode-languageserver-types';
 import { ClientCapabilities, CodeActionParams } from 'vscode-languageserver-protocol';
-import { YamlCommands } from '../../commands';
 import * as path from 'path';
 import { TextBuffer } from '../utils/textBuffer';
 import { LanguageSettings } from '../yamlLanguageService';
@@ -27,7 +26,6 @@ import { yamlDocumentsCache } from '../parser/yaml-documents';
 import { FlowStyleRewriter } from '../utils/flow-style-rewriter';
 import { ASTNode } from '../jsonASTTypes';
 import * as _ from 'lodash';
-import { SourceToken } from 'yaml/dist/parse/cst';
 import { ErrorCode } from 'vscode-json-languageservice';
 import * as l10n from '@vscode/l10n';
 
@@ -53,42 +51,11 @@ export class YamlCodeActions {
     const result = [];
 
     result.push(...this.getConvertToBooleanActions(params.context.diagnostics, document));
-    result.push(...this.getJumpToSchemaActions(params.context.diagnostics));
     result.push(...this.getTabToSpaceConverting(params.context.diagnostics, document));
     result.push(...this.getUnusedAnchorsDelete(params.context.diagnostics, document));
     result.push(...this.getConvertToBlockStyleActions(params.context.diagnostics, document));
     result.push(...this.getKeyOrderActions(params.context.diagnostics, document));
     result.push(...this.getQuickFixForPropertyOrValueMismatch(params.context.diagnostics, document));
-
-    return result;
-  }
-
-  private getJumpToSchemaActions(diagnostics: Diagnostic[]): CodeAction[] {
-    const isOpenTextDocumentEnabled = this.clientCapabilities?.window?.showDocument?.support ?? false;
-    if (!isOpenTextDocumentEnabled) {
-      return [];
-    }
-    const schemaUriToDiagnostic = new Map<string, Diagnostic[]>();
-    for (const diagnostic of diagnostics) {
-      const schemaUri = (diagnostic.data as YamlDiagnosticData)?.schemaUri || [];
-      for (const schemaUriStr of schemaUri) {
-        if (schemaUriStr) {
-          if (!schemaUriToDiagnostic.has(schemaUriStr)) {
-            schemaUriToDiagnostic.set(schemaUriStr, []);
-          }
-          schemaUriToDiagnostic.get(schemaUriStr).push(diagnostic);
-        }
-      }
-    }
-    const result = [];
-    for (const schemaUri of schemaUriToDiagnostic.keys()) {
-      const action = CodeAction.create(
-        l10n.t('jumpToSchema', path.basename(schemaUri)),
-        Command.create('JumpToSchema', YamlCommands.JUMP_TO_SCHEMA, schemaUri)
-      );
-      action.diagnostics = schemaUriToDiagnostic.get(schemaUri);
-      result.push(action);
-    }
 
     return result;
   }
@@ -291,7 +258,7 @@ export class YamlCodeActions {
                 }
                 if (newLineToken && newLineIndex < 0) {
                   item.value.end = item.value.end ?? [];
-                  item.value.end.push(newLineToken as SourceToken);
+                  item.value.end.push(newLineToken as CST.SourceToken);
                 }
                 if (!newLineToken && newLineIndex > -1) {
                   item.value.end.splice(newLineIndex, 1);
@@ -299,7 +266,12 @@ export class YamlCodeActions {
               } else if (item.value?.type === 'block-scalar') {
                 const newline = item.value.props.find((p) => p.type === 'newline');
                 if (!newline) {
-                  item.value.props.push({ type: 'newline', indent: 0, offset: item.value.offset, source: '\n' } as SourceToken);
+                  item.value.props.push({
+                    type: 'newline',
+                    indent: 0,
+                    offset: item.value.offset,
+                    source: '\n',
+                  } as CST.SourceToken);
                 }
               }
             }

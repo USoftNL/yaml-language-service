@@ -22,7 +22,6 @@ import {
   FoldingRange,
   TextEdit,
   DocumentLink,
-  CodeLens,
   DefinitionLink,
   SelectionRange,
 } from 'vscode-languageserver-types';
@@ -33,25 +32,16 @@ import { YAMLValidation } from './services/yamlValidation';
 import { YAMLFormatter } from './services/yamlFormatter';
 import { DocumentSymbolsContext } from 'vscode-json-languageservice';
 import { YamlLinks } from './services/yamlLinks';
-import {
-  ClientCapabilities,
-  CodeActionParams,
-  Connection,
-  DocumentOnTypeFormattingParams,
-  DefinitionParams,
-} from 'vscode-languageserver';
+import { ClientCapabilities, CodeActionParams, DocumentOnTypeFormattingParams, DefinitionParams } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { getFoldingRanges } from './services/yamlFolding';
 import { FoldingRangesContext, SchemaVersions } from './yamlTypes';
 import { YamlCodeActions } from './services/yamlCodeActions';
 import { doDocumentOnTypeFormatting } from './services/yamlOnTypeFormatting';
-import { YamlCodeLens } from './services/yamlCodeLens';
 import { Telemetry } from './telemetry';
 import { YamlVersion } from './parser/yamlParser07';
 import { YamlCompletion } from './services/yamlCompletion';
 import { yamlDocumentsCache } from './parser/yaml-documents';
-import { SettingsState } from '../yamlSettings';
-import { JSONSchemaSelection } from '../languageserver/handlers/schemaSelectionHandlers';
 import { YamlDefinition } from './services/yamlDefinition';
 import { getSelectionRanges } from './services/yamlSelectionRanges';
 
@@ -178,16 +168,12 @@ export interface LanguageService {
   getFoldingRanges: (document: TextDocument, context: FoldingRangesContext) => FoldingRange[] | null;
   getSelectionRanges: (document: TextDocument, positions: Position[]) => SelectionRange[];
   getCodeAction: (document: TextDocument, params: CodeActionParams) => CodeAction[] | undefined;
-  getCodeLens: (document: TextDocument) => PromiseLike<CodeLens[] | undefined> | CodeLens[] | undefined;
-  resolveCodeLens: (param: CodeLens) => PromiseLike<CodeLens> | CodeLens;
 }
 
 export function getLanguageService(params: {
   schemaRequestService: SchemaRequestService;
   workspaceContext: WorkspaceContextService;
-  connection?: Connection;
   telemetry?: Telemetry;
-  yamlSettings?: SettingsState;
   clientCapabilities?: ClientCapabilities;
 }): LanguageService {
   const schemaService = new YAMLSchemaService(params.schemaRequestService, params.workspaceContext);
@@ -197,11 +183,8 @@ export function getLanguageService(params: {
   const yamlValidation = new YAMLValidation(schemaService, params.telemetry);
   const formatter = new YAMLFormatter();
   const yamlCodeActions = new YamlCodeActions(params.clientCapabilities);
-  const yamlCodeLens = new YamlCodeLens(schemaService, params.telemetry);
   const yamlLinks = new YamlLinks(params.telemetry);
   const yamlDefinition = new YamlDefinition(params.telemetry);
-
-  new JSONSchemaSelection(schemaService, params.yamlSettings, params.connection);
 
   return {
     configure: (settings) => {
@@ -223,7 +206,7 @@ export function getLanguageService(params: {
       }
       yamlValidation.configure(settings);
       hover.configure(settings);
-      completer.configure(settings, params.yamlSettings);
+      completer.configure(settings);
       formatter.configure(settings);
       yamlCodeActions.configure(settings);
     },
@@ -262,9 +245,5 @@ export function getLanguageService(params: {
     getCodeAction: (document, params) => {
       return yamlCodeActions.getCodeAction(document, params);
     },
-    getCodeLens: (document) => {
-      return yamlCodeLens.getCodeLens(document);
-    },
-    resolveCodeLens: (param) => yamlCodeLens.resolveCodeLens(param),
   };
 }

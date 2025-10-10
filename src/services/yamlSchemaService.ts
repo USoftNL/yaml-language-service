@@ -22,7 +22,7 @@ import { SingleYAMLDocument } from '../parser/yamlParser07';
 import { JSONDocument } from '../parser/jsonParser07';
 import * as path from 'path';
 import { getSchemaFromModeline } from './modelineUtil';
-import { JSONSchemaDescriptionExt } from '../../requestTypes';
+import { JSONSchemaDescriptionExt } from '../requestTypes';
 import { SchemaVersions } from '../yamlTypes';
 
 import { parse } from 'yaml';
