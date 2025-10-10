@@ -1,30 +1,30 @@
 {
-  "name": "yaml-language-server",
-  "description": "YAML language server",
+  "name": "usoft-language-server",
+  "description": "USoft language server",
   "version": "1.20.0",
-  "author": "Red Hat",
+  "author": "USoft",
   "license": "MIT",
   "contributors": [
     {
-      "name": "Muthurajan Sivasubramanian",
-      "email": "msivasub@redhat.com"
+      "name": "Danny Dorstijn",
+      "email": "danny.dorstijn@usoft.com"
     },
     {
-      "name": "Google LLC"
+      "name": "RedHat LLC"
     }
   ],
   "bin": {
-    "yaml-language-server": "bin/yaml-language-server"
+    "usoft-language-server": "bin/usoft-language-server"
   },
   "main": "./out/server/src/index.js",
   "l10n": "./l10n",
   "keywords": [
-    "yaml",
+    "usoft",
     "LSP"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/redhat-developer/yaml-language-server.git"
+    "url": "git+https://github.com/USoftNL/usoft-language-server"
   },
   "dependencies": {
     "@vscode/l10n": "^0.0.18",

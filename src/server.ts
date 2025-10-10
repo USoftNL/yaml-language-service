@@ -25,6 +25,7 @@ if (process.argv.indexOf('--stdio') === -1) {
 process.on('uncaughtException', (err: Error) => {
   // send all uncaught exception to telemetry with stack traces
   connection.console.error(convertErrorToTelemetryMsg(err));
+  console.error(err);
 });
 
 console.log = connection.console.log.bind(connection.console);

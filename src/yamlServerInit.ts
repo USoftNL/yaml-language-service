@@ -54,6 +54,8 @@ export class YAMLServerInit {
       // need to call this after connection initialized
       this.settingsHandler.registerHandlers();
       this.settingsHandler.pullConfiguration();
+
+      console.log('INITIALIZED');
     });
   }
 
