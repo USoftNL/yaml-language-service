@@ -5,7 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { JSONSchema, JSONSchemaMap, JSONSchemaRef } from '../jsonSchema';
-import { SchemaPriority, SchemaRequestService, WorkspaceContextService } from '../yamlLanguageService';
+import { SchemaPriority, SchemaRequestService, WorkspaceContextService } from '..';
 import {
   UnresolvedSchema,
   ResolvedSchema,
