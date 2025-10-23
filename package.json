@@ -13,8 +13,8 @@
       "name": "RedHat LLC"
     }
   ],
-  "module": "out/index.js",
-  "types": "out/index.d.ts",
+  "module": "out/yamlLanguageService.js",
+  "types": "out/yamlLanguageService.d.ts",
   "l10n": "./l10n",
   "keywords": [
     "yaml",
