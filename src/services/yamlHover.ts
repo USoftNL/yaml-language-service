@@ -6,7 +6,7 @@
 
 import { Hover, MarkupContent, MarkupKind, Position, Range } from 'vscode-languageserver-types';
 import { matchOffsetToDocument } from '../utils/arrUtils';
-import { LanguageSettings } from '..';
+import { LanguageSettings } from '../yamlLanguageService';
 import { YAMLSchemaService } from './yamlSchemaService';
 import { setKubernetesParserOption } from '../parser/isKubernetes';
 import { TextDocument } from 'vscode-languageserver-textdocument';

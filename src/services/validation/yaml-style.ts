@@ -2,7 +2,7 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import { Diagnostic, DiagnosticSeverity, Range } from 'vscode-languageserver-types';
 import { isMap, isSeq, visit, CST } from 'yaml';
 import { SingleYAMLDocument } from '../../parser/yaml-documents';
-import { LanguageSettings } from '../..';
+import { LanguageSettings } from '../../yamlLanguageService';
 import { AdditionalValidator } from './types';
 import * as l10n from '@vscode/l10n';
 

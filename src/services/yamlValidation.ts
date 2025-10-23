@@ -5,7 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { Diagnostic, Position } from 'vscode-languageserver-types';
-import { LanguageSettings } from '..';
+import { LanguageSettings } from '../yamlLanguageService';
 import { YAMLDocument, YamlVersion, SingleYAMLDocument } from '../parser/yamlParser07';
 import { YAMLSchemaService } from './yamlSchemaService';
 import { YAMLDocDiagnostic } from '../utils/parseUtils';

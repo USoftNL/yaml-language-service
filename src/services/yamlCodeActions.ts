@@ -17,7 +17,7 @@ import {
 import { ClientCapabilities, CodeActionParams } from 'vscode-languageserver-protocol';
 import * as path from 'path';
 import { TextBuffer } from '../utils/textBuffer';
-import { LanguageSettings } from '..';
+import { LanguageSettings } from '../yamlLanguageService';
 import { YAML_SOURCE } from '../parser/jsonParser07';
 import { getFirstNonWhitespaceCharacterAfterOffset } from '../utils/strings';
 import { matchOffsetToDocument } from '../utils/arrUtils';

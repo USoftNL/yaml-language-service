@@ -24,7 +24,7 @@ import { YamlVersion } from '../parser/yamlParser07';
 import { filterInvalidCustomTags, matchOffsetToDocument } from '../utils/arrUtils';
 import { guessIndentation } from '../utils/indentationGuesser';
 import { TextBuffer } from '../utils/textBuffer';
-import { LanguageSettings } from '..';
+import { LanguageSettings } from '../yamlLanguageService';
 import { YAMLSchemaService } from './yamlSchemaService';
 import { ResolvedSchema } from 'vscode-json-languageservice/lib/umd/services/jsonSchemaService';
 import { JSONSchema, JSONSchemaRef } from '../jsonSchema';
