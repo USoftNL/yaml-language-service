@@ -11,3 +11,4 @@ lib/
 eslint-result.sarif
 yarn.lock
 out/
+dist/

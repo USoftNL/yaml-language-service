@@ -23,7 +23,7 @@ import { getIndentation } from '../utils/strings';
 export class SingleYAMLDocument extends JSONDocument {
   private lineCounter: LineCounter;
   private _internalDocument: Document;
-  public root: ASTNode;
+  declare public root: ASTNode;
   public currentDocIndex: number;
   private _lineComments: string[];
 

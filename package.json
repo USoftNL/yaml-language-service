@@ -1,5 +1,5 @@
 {
-  "name": "yaml-language-service",
+  "name": "@usoft/yaml-language-service",
   "description": "YAML language service",
   "version": "1.20.0",
   "author": "USoft",
@@ -13,9 +13,8 @@
       "name": "RedHat LLC"
     }
   ],
-  "module": "out/yamlLanguageService.js",
-  "types": "out/yamlLanguageService.d.ts",
-  "l10n": "./l10n",
+  "main": "./dist/yamlLanguageService.js",
+  "types": "./dist/yamlLanguageService.d.ts",
   "keywords": [
     "yaml",
     "language-service"
@@ -42,7 +41,6 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "compile": "tsc -p .",
-    "watch": "tsc --watch -p ."
+    "clean": "rimraf dist"
   }
 }
