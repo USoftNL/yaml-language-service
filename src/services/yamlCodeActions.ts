@@ -15,7 +15,6 @@ import {
   WorkspaceEdit,
 } from 'vscode-languageserver-types';
 import { ClientCapabilities, CodeActionParams } from 'vscode-languageserver-protocol';
-import * as path from 'path';
 import { TextBuffer } from '../utils/textBuffer';
 import { LanguageSettings } from '../yamlLanguageService';
 import { YAML_SOURCE } from '../parser/jsonParser07';
